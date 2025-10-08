@@ -15,11 +15,21 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search)
 
     const telegram_id = urlParams.get('telegram_id') || 'Noma\'lum'
-    const full_name = decodeURIComponent(urlParams.get('full_name') || 'Mavjud emas')
-    const username = decodeURIComponent(urlParams.get('username') || '')
-    const phone = decodeURIComponent(urlParams.get('phone') || 'Mavjud emas')
-    const lang = decodeURIComponent(urlParams.get('lang') || 'uz')
-    const photo_url = decodeURIComponent(urlParams.get('photo_url') || '')
+    const full_name = urlParams.get('full_name') || 'Mavjud emas'
+    const username = urlParams.get('username') || ''
+    const phone = urlParams.get('phone') || 'Mavjud emas'
+    const lang = urlParams.get('lang') || 'uz'
+    const photo_url = urlParams.get('photo_url') || ''
+
+    // Debug uchun console.log
+    console.log('URL Parametrlari:', {
+      telegram_id,
+      full_name,
+      username,
+      phone,
+      lang,
+      photo_url
+    })
 
     const langNames = {
       'uz': 'Oʻzbekcha',
@@ -29,11 +39,11 @@ function App() {
 
     setUserData({
       telegram_id,
-      full_name: full_name || 'Mavjud emas',
-      username: username ? `@${username}` : 'Mavjud emas',
-      phone: phone || 'Mavjud emas',
+      full_name: decodeURIComponent(full_name) || 'Mavjud emas',
+      username: username ? `@${decodeURIComponent(username)}` : 'Mavjud emas',
+      phone: decodeURIComponent(phone) || 'Mavjud emas',
       lang: langNames[lang] || lang,
-      photo_url: photo_url || ''
+      photo_url: decodeURIComponent(photo_url) || ''
     })
 
     if (window.Telegram && window.Telegram.WebApp) {
@@ -52,6 +62,10 @@ function App() {
     }
   }
 
+  // Rasm yuklanayotganini tekshirish
+  console.log('User data:', userData)
+  console.log('Photo URL:', userData.photo_url)
+
   return (
     <div className="app" style={{ maxWidth: '500px', width: '100%' }}>
       <div className="container">
@@ -63,8 +77,11 @@ function App() {
                 alt="Foydalanuvchi rasmi"
                 className="avatar"
                 onError={(e) => {
+                  console.log('Rasm yuklanmadi, default avatar ishlatiladi')
                   e.target.src = getDefaultAvatar()
+                  e.target.onerror = null // Infinite loop oldini olish
                 }}
+                onLoad={() => console.log('Rasm muvaffaqiyatli yuklandi')}
               />
               <div className="online-indicator"></div>
             </div>

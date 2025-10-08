@@ -283,3 +283,28 @@ body {
     background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
   }
 }
+
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #667eea;
+  object-fit: cover;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  padding: 3px;
+  display: block; /* Bu muhim */
+}
+
+/* Rasm yuklanayotganda loading effekti */
+.avatar:not([src]),
+.avatar[src=""] {
+  background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
